@@ -5,11 +5,13 @@ import styled from "styled-components";
 class Pagination extends React.Component {
   static propTypes = {
     users: PropTypes.array.isRequired,
+    currentIndex: PropTypes.number,
     onClick: PropTypes.func
   };
 
   static defaultProps = {
-    onClick: () => {}
+    onClick: () => {},
+    currentIndex: 1
   };
 
   state = {
@@ -17,7 +19,8 @@ class Pagination extends React.Component {
   };
 
   createDivision = () => {
-    const users = this.props.users;
+    const { users } = this.props;
+    const { currentIndex } = this.props;
     const totalPartitions = Math.ceil(users.length / 10);
     console.log(totalPartitions);
     const count = [];
@@ -27,6 +30,11 @@ class Pagination extends React.Component {
     return count.map(index => {
       return (
         <PageBlock
+          style={
+            currentIndex === index - 1
+              ? { background: "#2cbeff", color: "white" }
+              : {}
+          }
           onClick={() => {
             const from = (index - 1) * 10;
             const to = from + 10 > users.length ? users.length : from + 10;

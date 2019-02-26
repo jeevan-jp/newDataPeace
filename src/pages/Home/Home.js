@@ -18,7 +18,7 @@ class Home extends React.Component {
       const data = await UserList();
       this.setState({ users: data });
     } catch {
-      console.log("error fetching Users");
+      console.log("error fetching users");
     }
   };
 

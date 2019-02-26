@@ -71,32 +71,82 @@ class UserTable extends React.Component {
                 </StyledSortIcon>
                 First Name
               </StyledTh>
-              <StyledTh>Last Name</StyledTh>
-              <StyledTh>Company Name</StyledTh>
-              <StyledTh>City</StyledTh>
-              <StyledTh>State</StyledTh>
-              <StyledTh>ZIP</StyledTh>
-              <StyledTh>Email</StyledTh>
-              <StyledTh>Web</StyledTh>
-              <StyledTh>Age</StyledTh>
+              <StyledTh
+                onClick={() => {
+                  this.sortBy("lname");
+                }}
+              >
+                Last Name
+              </StyledTh>
+              <StyledTh
+                onClick={() => {
+                  this.sortBy("cname");
+                }}
+              >
+                Company Name
+              </StyledTh>
+              <StyledTh
+                onClick={() => {
+                  this.sortBy("city");
+                }}
+              >
+                City
+              </StyledTh>
+              <StyledTh
+                onClick={() => {
+                  this.sortBy("state");
+                }}
+              >
+                State
+              </StyledTh>
+              <StyledTh
+                onClick={() => {
+                  this.sortBy("zip");
+                }}
+              >
+                ZIP
+              </StyledTh>
+              <StyledTh
+                onClick={() => {
+                  this.sortBy("email");
+                }}
+              >
+                Email
+              </StyledTh>
+              <StyledTh
+                onClick={() => {
+                  this.sortBy("web");
+                }}
+              >
+                Web
+              </StyledTh>
+              <StyledTh
+                onClick={() => {
+                  this.sortBy("age");
+                }}
+              >
+                Age
+              </StyledTh>
             </StyledTr>
           </thead>
           <tbody>
-            {currentUsers.map(user => {
-              return (
-                <StyledTr key={user.email}>
-                  <StyledTd>{user.first_name}</StyledTd>
-                  <StyledTd>{user.last_name}</StyledTd>
-                  <StyledTd>{user.company_name}</StyledTd>
-                  <StyledTd>{user.city}</StyledTd>
-                  <StyledTd>{user.state}</StyledTd>
-                  <StyledTd>{user.zip}</StyledTd>
-                  <StyledTd>{user.email}</StyledTd>
-                  <StyledTd>{user.web}</StyledTd>
-                  <StyledTd>{user.age}</StyledTd>
-                </StyledTr>
-              );
-            })}
+            {users.length
+              ? currentUsers.map(user => {
+                  return (
+                    <StyledTr key={user.email}>
+                      <StyledTd>{user.first_name}</StyledTd>
+                      <StyledTd>{user.last_name}</StyledTd>
+                      <StyledTd>{user.company_name}</StyledTd>
+                      <StyledTd>{user.city}</StyledTd>
+                      <StyledTd>{user.state}</StyledTd>
+                      <StyledTd>{user.zip}</StyledTd>
+                      <StyledTd>{user.email}</StyledTd>
+                      <StyledTd>{user.web}</StyledTd>
+                      <StyledTd>{user.age}</StyledTd>
+                    </StyledTr>
+                  );
+                })
+              : ""}
           </tbody>
         </StyledTable>
 
@@ -122,6 +172,7 @@ class UserTable extends React.Component {
           <PaginationContainer>
             <Pagination
               users={this.props.users}
+              currentIndex={currentIndex}
               onClick={(from, to) => {
                 this.sliceUsers(from, to);
               }}
