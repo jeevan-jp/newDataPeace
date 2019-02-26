@@ -1,7 +1,9 @@
 import React from "react";
 import UserList from "../../services/UserList";
 import styled from "styled-components";
+
 import UserTable from "./Components/UserTable";
+import Loader from "../../components/Loader";
 
 class Home extends React.Component {
   state = {
@@ -28,7 +30,11 @@ class Home extends React.Component {
       <div>
         <Header>Data Peace</Header>
         <StyledContainer>
-          {users !== null ? <UserTable users={users} /> : "Loading..."}
+          {users !== null ? (
+            <UserTable users={users} {...this.props} />
+          ) : (
+            <Loader />
+          )}
         </StyledContainer>
       </div>
     );
@@ -52,7 +58,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 10px;
 `;
 
 export default Home;

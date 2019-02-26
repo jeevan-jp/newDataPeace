@@ -22,7 +22,6 @@ class Pagination extends React.Component {
     const { users } = this.props;
     const { currentIndex } = this.props;
     const totalPartitions = Math.ceil(users.length / 10);
-    console.log(totalPartitions);
     const count = [];
     for (let i = 0; i < totalPartitions; i++) {
       count.push(i + 1);
@@ -38,8 +37,6 @@ class Pagination extends React.Component {
           onClick={() => {
             const from = (index - 1) * 10;
             const to = from + 10 > users.length ? users.length : from + 10;
-            console.log(from, to);
-            debugger;
             this.props.onClick(from, to);
           }}
           key={"page" + index}

@@ -3,19 +3,22 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import Pagination from "./Pagination";
+import SearchBox from "./SearchBox";
 
 class UserTable extends React.Component {
   static propTypes = {
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    history: PropTypes.object.isRequired
   };
 
   state = {
+    initialTenUsers: [],
     currentUsers: [],
     currentIndex: null
   };
 
   componentDidMount() {
-    this.sliceUsers(0, 9);
+    this.sliceUsers(0, 10);
   }
 
   sliceUsers(from, to) {
@@ -25,7 +28,11 @@ class UserTable extends React.Component {
       for (let i = from; i < to; i++) {
         selectedUsers.push(users[i]);
       }
-      this.setState({ currentUsers: selectedUsers, currentIndex: from / 10 });
+      this.setState({
+        currentUsers: selectedUsers,
+        initialTenUsers: selectedUsers,
+        currentIndex: from / 10
+      });
     }
   }
 
@@ -50,82 +57,126 @@ class UserTable extends React.Component {
   };
 
   sortBy = category => {
-    console.log(category);
+    const { currentUsers } = this.state;
+    const SetOfSelectedFields = new Set();
+    currentUsers.forEach(user => SetOfSelectedFields.add(user[category]));
+    const ArrayOfSelectedFields = [];
+    for (let i of SetOfSelectedFields) {
+      ArrayOfSelectedFields.push(i);
+    }
+    ArrayOfSelectedFields.sort();
+    let sortedList = [];
+    ArrayOfSelectedFields.forEach(field => {
+      const AllOccurences = currentUsers.filter(
+        user => user[category] === field
+      );
+      sortedList = [...sortedList, ...AllOccurences];
+    });
+    this.setState({ currentUsers: sortedList });
   };
 
   render() {
-    const { currentUsers, currentIndex } = this.state;
+    const { currentUsers, initialTenUsers, currentIndex } = this.state;
     const { users } = this.props;
     return (
       <div>
+        <SearchBox
+          initialTenUsers={initialTenUsers}
+          currentIndex={currentIndex}
+          total={users.length}
+          onSubmit={results => {
+            const ids = results.map(res => res.id);
+            const filteredUsers = initialTenUsers.filter(
+              user => ids.indexOf(user.id) > -1
+            );
+            this.setState({ currentUsers: [...filteredUsers] });
+          }}
+        />
         <StyledTable>
           <thead>
             <StyledTr style={{ background: "#808080ba" }}>
               <StyledTh>
                 <StyledSortIcon
                   onClick={() => {
-                    this.sortBy("fname");
+                    this.sortBy("first_name");
                   }}
                 >
                   &#9662;
                 </StyledSortIcon>
                 First Name
               </StyledTh>
-              <StyledTh
-                onClick={() => {
-                  this.sortBy("lname");
-                }}
-              >
+              <StyledTh>
+                <StyledSortIcon
+                  onClick={() => {
+                    this.sortBy("last_name");
+                  }}
+                >
+                  &#9662;
+                </StyledSortIcon>
                 Last Name
               </StyledTh>
-              <StyledTh
-                onClick={() => {
-                  this.sortBy("cname");
-                }}
-              >
-                Company Name
+              <StyledTh>
+                <StyledSortIcon
+                  onClick={() => {
+                    this.sortBy("company_name");
+                  }}
+                >
+                  &#9662; Company Name
+                </StyledSortIcon>
               </StyledTh>
-              <StyledTh
-                onClick={() => {
-                  this.sortBy("city");
-                }}
-              >
-                City
+              <StyledTh>
+                <StyledSortIcon
+                  onClick={() => {
+                    this.sortBy("city");
+                  }}
+                >
+                  &#9662; City
+                </StyledSortIcon>
               </StyledTh>
-              <StyledTh
-                onClick={() => {
-                  this.sortBy("state");
-                }}
-              >
-                State
+              <StyledTh>
+                <StyledSortIcon
+                  onClick={() => {
+                    this.sortBy("state");
+                  }}
+                >
+                  &#9662; State
+                </StyledSortIcon>
               </StyledTh>
-              <StyledTh
-                onClick={() => {
-                  this.sortBy("zip");
-                }}
-              >
-                ZIP
+              <StyledTh>
+                <StyledSortIcon
+                  onClick={() => {
+                    this.sortBy("zip");
+                  }}
+                >
+                  &#9662; ZIP
+                </StyledSortIcon>
               </StyledTh>
-              <StyledTh
-                onClick={() => {
-                  this.sortBy("email");
-                }}
-              >
-                Email
+              <StyledTh>
+                <StyledSortIcon
+                  onClick={() => {
+                    this.sortBy("email");
+                  }}
+                >
+                  &#9662; Email
+                </StyledSortIcon>
               </StyledTh>
-              <StyledTh
-                onClick={() => {
-                  this.sortBy("web");
-                }}
-              >
-                Web
+              <StyledTh>
+                <StyledSortIcon
+                  onClick={() => {
+                    this.sortBy("web");
+                  }}
+                >
+                  &#9662; Web
+                </StyledSortIcon>
               </StyledTh>
-              <StyledTh
-                onClick={() => {
-                  this.sortBy("age");
-                }}
-              >
-                Age
+              <StyledTh>
+                <StyledSortIcon
+                  onClick={() => {
+                    this.sortBy("age");
+                  }}
+                >
+                  &#9662; Age
+                </StyledSortIcon>
               </StyledTh>
             </StyledTr>
           </thead>
@@ -133,7 +184,13 @@ class UserTable extends React.Component {
             {users.length
               ? currentUsers.map(user => {
                   return (
-                    <StyledTr key={user.email}>
+                    <StyledTr
+                      key={user.id}
+                      id={user.id}
+                      onClick={() => {
+                        this.props.history.push(`/users/${user.id}`);
+                      }}
+                    >
                       <StyledTd>{user.first_name}</StyledTd>
                       <StyledTd>{user.last_name}</StyledTd>
                       <StyledTd>{user.company_name}</StyledTd>
@@ -176,6 +233,7 @@ class UserTable extends React.Component {
               onClick={(from, to) => {
                 this.sliceUsers(from, to);
               }}
+              {...this.props}
             />
           </PaginationContainer>
         </div>
