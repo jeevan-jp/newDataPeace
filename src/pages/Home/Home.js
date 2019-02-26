@@ -1,7 +1,7 @@
 import React from "react";
 import UserList from "../../services/UserList";
 import styled from "styled-components";
-import UserTable from "./Components/UserTable/UserTable";
+import UserTable from "./Components/UserTable";
 
 class Home extends React.Component {
   state = {
@@ -52,6 +52,7 @@ const StyledContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 50px;
 `;
 
 export default Home;

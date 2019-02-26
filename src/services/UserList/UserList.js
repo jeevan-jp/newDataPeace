@@ -365,6 +365,18 @@ const UserList = async props => {
         email: "bfigeroa@aol.com",
         web: "http://www.clarkrichardcpa.com",
         age: 77
+      },
+      {
+        id: 230,
+        first_name: "Ressie",
+        last_name: "Auffrey",
+        company_name: "Faw, James C Cpa",
+        city: "Miami",
+        state: "FL",
+        zip: 33134,
+        email: "ressie.auffrey@yahoo.com",
+        web: "http://www.fawjamesccpa.com",
+        age: 33
       }
     ];
   } catch {
