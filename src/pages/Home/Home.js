@@ -28,7 +28,6 @@ class Home extends React.Component {
       <div>
         <Header>Data Peace</Header>
         <StyledContainer>
-          <div>Hello Data Peace</div>
           {users !== null ? <UserTable users={users} /> : "Loading..."}
         </StyledContainer>
       </div>
@@ -49,8 +48,10 @@ const Header = styled.div`
 `;
 
 const StyledContainer = styled.div`
-  margin: 0 30px;
-  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Home;
