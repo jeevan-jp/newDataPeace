@@ -29,13 +29,13 @@ class Home extends React.Component {
     return (
       <div>
         <Header>Data Peace</Header>
-        <StyledContainer>
-          {users !== null ? (
+        {users !== null ? (
+          <StyledContainer>
             <UserTable users={users} {...this.props} />
-          ) : (
-            <Loader />
-          )}
-        </StyledContainer>
+          </StyledContainer>
+        ) : (
+          <Loader />
+        )}
       </div>
     );
   }
