@@ -246,6 +246,7 @@ class UserTable extends React.Component {
 }
 
 const StyledTable = styled.table`
+  overflow-x: auto;
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
@@ -264,9 +265,9 @@ const StyledTh = styled.th`
 `;
 
 const StyledTr = styled.tr`
+  cursor: pointer;
   &:nth-child(even) {
     background-color: #dddddd;
-    cursor: pointer;
   }
   &:hover {
     background: #ade6ff;
