@@ -233,6 +233,9 @@ class UserTable extends React.Component {
               onClick={(from, to) => {
                 this.sliceUsers(from, to);
               }}
+              changeCurrentIndex={currentIndex => {
+                this.setState({ currentIndex });
+              }}
               {...this.props}
             />
           </PaginationContainer>
