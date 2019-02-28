@@ -234,7 +234,10 @@ class UserTable extends React.Component {
                 this.sliceUsers(from, to);
               }}
               changeCurrentIndex={currentIndex => {
+                const from = currentIndex * 10;
+                const to = from + 10 > users.length ? users.length : from + 10;
                 this.setState({ currentIndex });
+                this.sliceUsers(from, to);
               }}
               {...this.props}
             />
